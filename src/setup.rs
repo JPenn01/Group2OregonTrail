@@ -219,6 +219,7 @@ pub fn apply_doctor_bill(state: &mut GameState) -> Result<(), GameOver> {
 }
 
 
+<<<<<<< HEAD
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -291,3 +292,5 @@ mod tests {
         assert_eq!(s.misc_supplies, 0.0);
     }
 }
+=======
+>>>>>>> 06de3b1d2a1127313c5f4c7c04c41ed73672bc09
