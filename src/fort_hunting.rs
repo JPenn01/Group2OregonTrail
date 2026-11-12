@@ -77,13 +77,31 @@ pub fn fort_purchases(state: &mut GameState) {}
 ///
 /// Skeleton does nothing.
 pub fn go_hunting(state: &mut GameState) {}
-
+    if state.bullets < MIN_HUNT_BULLETS {
+        println!("{TOUGH_MSG}");
+        return; // safety net; turn_menu already prevents this
+    }
+    state.mileage -= 45.0;
+    let score = shooting_challenge(state.skill_level);
+    resolve_hunt_outcome(score, state);
+}
 /// The timed "type the word" challenge. Returns the response score: lower is faster, and
 /// 9 means the wrong word was typed. Also called from Parts 3 and 4.
 ///
 /// Skeleton returns 2.0 (a middling response) without prompting.
 pub fn shooting_challenge(skill_level: f64) -> f64 {
-    2.0
+    let idx = ((rng::rnd() * WORDS.len() as f64) as usize).min(WORDS.len() - 1);
+    let word = WORDS[idx];
+    println!("TYPE {word}");
+
+    let start = Instant::now();
+    let typed = io::ask("");
+    let elapsed = start.elapsed().as_secs_f64();
+
+    if typed != word {
+        return 9.0;
+    }
+    (elapsed - (skill_level - 1.0)).max(0.0)
 }
 
 /// Turns a response score into a hunt result: food gained, bullets spent, or a miss.
