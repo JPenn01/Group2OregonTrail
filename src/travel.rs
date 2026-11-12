@@ -37,6 +37,7 @@ pub fn choose_eating_level(state: &mut GameState) -> Result<EatingLevel, GameOve
         };
 
         if consume_food(state, level).is_ok() {
+            state.last_eating_level = level;
             return Ok(level); //finishes the loop, returns validated eating choice
         }
         else {
@@ -130,6 +131,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
         if (1..=4).contains(&choice) {
             break choice; //ends loop if valid input is entered
         }
+    };
         //prevents standard closing message
         let mut skip_closing = false;
 
