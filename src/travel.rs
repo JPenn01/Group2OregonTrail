@@ -27,7 +27,7 @@ pub fn choose_eating_level(state: &mut GameState) -> Result<EatingLevel, GameOve
         println!("DO YOU WANT TO EAT (1) POORLY (2) MODERATELY");
         println!("OR (3) WELL");
 
-        let choice = crate::io::ask_number() as i32; //collects user input
+        let choice = crate::io::ask_number("") as i32; //collects user input
 
         let level = match choice { //saves eating choice to level
             1 => EatingLevel::Poor,
@@ -127,7 +127,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
         println!("(1) RUN (2) ATTACK (3) CONTINUE (4) CIRCLE WAGONS");
 
         //checks for valid input 1-4
-        let choice = crate::io::ask_number() as i32;
+        let choice = crate::io::ask_number("") as i32;
         if (1..=4).contains(&choice) {
             break choice; //ends loop if valid input is entered
         }
@@ -155,7 +155,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
                     else if score > 4.0 {
                         println!("LOUSY SHOT---YOU GOT KNIFED");
                         state.injury_pending = true;
-                        println!("YOU HAVVE TO SEE OL' DOC BLANCHARD");
+                        println!("YOU HAVE TO SEE OL' DOC BLANCHARD");
                     }
                     else {
                         println!("KINDA SLOW WITH YOUR COLT .45");
@@ -183,7 +183,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
                     else if score > 4.0 {
                         println!("LOUSY SHOT---YOU GOT KNIFED");
                         state.injury_pending = true;
-                        println!("YOU HAVVE TO SEE OL' DOC BLANCHARD");
+                        println!("YOU HAVE TO SEE OL' DOC BLANCHARD");
                     }
                     else {
                         println!("KINDA SLOW WITH YOUR COLT .45");
