@@ -21,7 +21,7 @@ pub fn turn_menu(state: &mut GameState) -> TurnChoice {
             let n = io::ask_number(
                 "DO YOU WANT TO (1) STOP AT THE NEXT FORT, (2) HUNT, OR (3) CONTINUE",
             );
-            // Anything outside 1-2 becomes 3 (continue).
+            // Anything not 1-2 becomes 3 (continue).
             if n == 1.0 {
                 TurnChoice::StopAtFort
             } else if n == 2.0 {
@@ -36,7 +36,7 @@ pub fn turn_menu(state: &mut GameState) -> TurnChoice {
 
         if matches!(picked, TurnChoice::Hunt) && state.bullets < MIN_HUNT_BULLETS {
             println!("{TOUGH_MSG}");
-            continue; // same menu again, flag not flipped
+            continue; // same menu again
         }
         break picked;
     };
@@ -49,7 +49,30 @@ pub fn turn_menu(state: &mut GameState) -> TurnChoice {
 ///
 /// Skeleton does nothing.
 pub fn fort_purchases(state: &mut GameState) {}
+    println!("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING");
 
+    for item in ["FOOD", "AMMUNITION", "CLOTHING", "MISCELLANEOUS SUPPLIES"] {
+        let spend = io::ask_number(item);
+        if spend < 0.0 {
+            continue;
+        }
+        if state.cash - spend < 0.0 {
+            println!("YOU DON'T HAVE THAT MUCH--KEEP YOUR SPENDING DOWN");
+            println!("YOU MISS YOUR CHANCE TO SPEND ON THAT ITEM");
+            continue;
+        }
+        state.cash -= spend;
+        let gained = 2.0 / 3.0 * spend;
+        match item {
+            "FOOD" => state.food += gained,
+            "AMMUNITION" => state.bullets += gained * 50.0,
+            "CLOTHING" => state.clothing += gained,
+            _ => state.misc_supplies += gained,
+        }
+    }
+
+    state.mileage -= 45.0;
+}
 /// Hunting: bullet check, 45 miles, shooting challenge, then `resolve_hunt_outcome`.
 ///
 /// Skeleton does nothing.
