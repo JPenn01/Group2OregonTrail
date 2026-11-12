@@ -145,7 +145,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
                     state.oxen_spend -= 40.0;
                 }
                 2 => { //ATTACK
-                    let score = shooting_challenge(state); //runs shooting challenge
+                    let score = shooting_challenge(state.skill_level); //runs shooting challenge
                     state.bullets -= 80.0 + 40.0 * score;
 
                     //responses to the shooting challenge
@@ -172,7 +172,7 @@ pub fn resolve_rider_encounter(state: &mut GameState, looks: Hostility) -> Resul
                     }
                 }
                 4 => { //CIRCLE WAGONS
-                    let score = shooting_challenge(state); //runs shooting challenge
+                    let score = shooting_challenge(state.skill_level); //runs shooting challenge
                     state.bullets -= 80.0 + 30.0 * score;
                     state.mileage -= 25.0;
 
