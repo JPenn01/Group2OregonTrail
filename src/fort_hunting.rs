@@ -48,7 +48,7 @@ pub fn turn_menu(state: &mut GameState) -> TurnChoice {
 /// Fort purchases at the worse 2:3 exchange rate; stopping costs 45 miles.
 ///
 /// Skeleton does nothing.
-pub fn fort_purchases(state: &mut GameState) {}
+pub fn fort_purchases(state: &mut GameState) {
     println!("ENTER WHAT YOU WISH TO SPEND ON THE FOLLOWING");
 
     for item in ["FOOD", "AMMUNITION", "CLOTHING", "MISCELLANEOUS SUPPLIES"] {
@@ -76,7 +76,7 @@ pub fn fort_purchases(state: &mut GameState) {}
 /// Hunting: bullet check, 45 miles, shooting challenge, then `resolve_hunt_outcome`.
 ///
 /// Skeleton does nothing.
-pub fn go_hunting(state: &mut GameState) {}
+pub fn go_hunting(state: &mut GameState) {
     if state.bullets < MIN_HUNT_BULLETS {
         println!("{TOUGH_MSG}");
         return; // safety net; turn_menu already prevents this
@@ -107,4 +107,17 @@ pub fn shooting_challenge(skill_level: f64) -> f64 {
 /// Turns a response score into a hunt result: food gained, bullets spent, or a miss.
 ///
 /// Skeleton does nothing.
-pub fn resolve_hunt_outcome(score: f64, state: &mut GameState) {}
+pub fn resolve_hunt_outcome(score: f64, state: &mut GameState) {
+    if score <= 1.0 {
+        println!("RIGHT BETWEEN THE EYES---YOU GOT A BIG ONE!!!!");
+        println!("FULL BELLIES TONIGHT!");
+        state.food += 52.0 + rng::rnd() * 6.0;
+        state.bullets -= 10.0 + rng::rnd() * 4.0;
+    } else if rng::rnd() * 100.0 < 13.0 * score {
+        println!("YOU MISSED---AND YOUR DINNER GOT AWAY.....");
+    } else {
+        println!("NICE SHOT--RIGHT ON TARGET--GOOD EATIN' TONIGHT!!");
+        state.food += 48.0 - 2.0 * score;
+        state.bullets -= 10.0 + 3.0 * score;
+    }
+}
